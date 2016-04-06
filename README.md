@@ -1,2 +1,3 @@
 # e7calband
-Solving for marching band formation transitions
+E& Project: Solving for marching band formation transitions
+Brian Lam, Alan Liu, Sean Park

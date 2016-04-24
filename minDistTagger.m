@@ -1,9 +1,10 @@
 function [tagged_formation] = minDistTagger(initial_formation, target_formation)
+% tags locations of marchers in the target formation by selecting the nearest target one at a time
 nb = sum(sum(target_formation));
 initial_loc = tagLocationList(initial_formation,nb);
 target_loc = locationList(target_formation);
 tagged_formation = target_formation;
-for tag = nb:-1:2
+for tag = nb:-1:2 % iterates through by marcher, tagging the nearest remaining target location
     disp(tag)
     i = initial_loc.row(tag);
     j = initial_loc.col(tag);

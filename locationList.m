@@ -1,5 +1,5 @@
 function [locations] = locationList(formation)
-% creates cell array of the location of each marcher
+% creates cell array of the location of each marcher in an untagged formation
 locations = struct('row',[],'col',[]);
 [rows, cols] = size(formation);
 for row = 1:rows

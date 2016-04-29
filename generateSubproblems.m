@@ -1,5 +1,7 @@
-function [target_sub1, target_sub2] = subtarget(initial_sub, target_formation) 
-n = sum(sum(initial_sub~=0)); % counts number of marchers in subproblem
+function [initial_sub1, initial_sub2, target_sub1, target_sub2] = generateSubproblems(initial_formation, target_formation, split) 
+initial_sub1 = initial_formation(:,1:split);
+initial_sub2 = initial_formation(:,split+1:end);
+n = sum(sum(initial_sub1~=0)); % counts number of marchers in subproblem
 [rows, cols] = size(target_formation);
 % creates target formation of the leftmost n marchers
 target_sub1 = zeros(rows, cols);

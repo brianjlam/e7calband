@@ -1,14 +1,21 @@
 function [instructions] = calband_transition(initial_formation,target_formation,max_beats)
 % main function - outputs a struct array of instructions for the transition
-[~,cols] = size(initial_formation);
+[rows,cols] = size(initial_formation);
 nb = sum(sum(target_formation));
-horizsplit = floor(cols/2);
-initial1 = initial_formation(:,1:horizsplit);
-initial2 = initial_formation(:,horizsplit+1:end);
+[initialL, initialR, targetL, targetR] = ...
+    generateSubproblems(initial_formation',target_formation',floor(rows/2));
+initialL = initialL';
+initialR = initialR';
+targetL = targetL';
+targetR = targetR';
+[initial1, initial2, target1, target2] = generateSubproblems(initialL, targetL, floor(cols/2));
+[initial3, initial4, target3, target4] = generateSubproblems(initialR, targetR, floor(cols/2));
 
-[target1, target2] = subtarget(initial1,target_formation);
+tag_targetform = minDistTagger(initial1, target1)...
+    + minDistTagger(initial2, target2)...
+    + minDistTagger(initial3, target3)...
+    + minDistTagger(initial4, target4); %tags location of each marcher in target formation
 
-tag_targetform = minDistTagger(initial1, target1) + minDistTagger(initial2, target2); %tags location of each marcher in target formation
 instructions = struct('i_target',[],'j_target',[],'wait',[],'direction',[]); %creates empty struct of instructions
 instructions = repmat(instructions,1,nb); % replicates instructions for 1 to nb marchers
 for tag = 1:nb

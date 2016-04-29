@@ -1,14 +1,14 @@
 function [instructions] = calband_transition(initial_formation,target_formation,max_beats)
 % main function - outputs a struct array of instructions for the transition
-[rows,cols] = size(initial_formation);
+[~,cols] = size(initial_formation);
 nb = sum(sum(target_formation));
-splitpoint = floor(cols/2);
-initial1 = initial_formation(:,1:splitpoint);
-initial2 = initial_formation(:,splitpoint+1:end);
+horizsplit = floor(cols/2);
+initial1 = initial_formation(:,1:horizsplit);
+initial2 = initial_formation(:,horizsplit+1:end);
+
 [target1, target2] = subtarget(initial1,target_formation);
 
-tag_target1 = minDistTagger(initial1, target1); %tags location of each marcher in target formation
-tag_target2 = minDistTagger(initial2, target2);
+tag_targetform = minDistTagger(initial1, target1) + minDistTagger(initial2, target2); %tags location of each marcher in target formation
 instructions = struct('i_target',[],'j_target',[],'wait',[],'direction',[]); %creates empty struct of instructions
 instructions = repmat(instructions,1,nb); % replicates instructions for 1 to nb marchers
 for tag = 1:nb

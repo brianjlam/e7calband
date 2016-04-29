@@ -1,8 +1,13 @@
 function [locations] = tagLocationList(formation, nb)
 % creates cell array of the location of each marcher, preserving tags
-locations = struct('row',[],'col',[]);
+locations = repmat(struct('row',[],'col',[]), 1, nb);
 for tag = 1:nb
-    [i,j] = find(formation==tag);
-    locations.row = [locations.row i];
-    locations.col = [locations.col j];
+    try
+        [i,j] = find(formation==tag);
+    catch
+        i = Inf;
+        j = Inf;
+    end
+    locations(tag).row = i;
+    locations(tag).col = j;
 end
